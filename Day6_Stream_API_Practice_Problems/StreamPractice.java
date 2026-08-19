@@ -54,6 +54,7 @@ public class StreamPractice {
         // System.out.println(skillsWithDelimiter);
         // Problem 8: Find Maximum Value
       
+        
         Optional<Integer> maxVal = numbers.stream()
                                          .max(Integer::compare);
         System.out.println("8. Max Value: " + maxVal.orElse(-1));
