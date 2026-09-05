@@ -27,6 +27,26 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
+        
+        String username = req.getParameter("username");
+        String password = req.getParameter("pass");
+        String sql = "INSERT INTO incidents (username, password) VALUES (?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            int rowsInserted = stmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                req.setAttribute("message", "Incident saved to database successfully!");
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            req.setAttribute("message", "Database Error: " + e.getMessage());
+        }
 
         // Hardcoded check for demo purposes
         if ("admin".equals(username) && "1234".equals(password)) {
